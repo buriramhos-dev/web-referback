@@ -1,15 +1,17 @@
-# ใช้ PHP 8.2 FPM แบบ Alpine
-FROM php:8.2-fpm-alpine
+# 1. ใช้ Base Image
+FROM php:8.2-fpm-alpine 
 
-# ติดตั้ง extension สำหรับ MySQL
-RUN docker-php-ext-install pdo_mysql
+# 2. ติดตั้ง Dependencies และ pdo_mysql
+RUN apk add --no-cache mariadb-client-dev \
+    && docker-php-ext-install pdo_mysql \
+    && apk del mariadb-client-dev
 
-# ตั้ง working directory
+# ⭐ 3. เพิ่มบรรทัดนี้: คัดลอกไฟล์ custom.ini เพื่อล้างค่า Socket เริ่มต้น
+COPY custom.ini /usr/local/etc/php/conf.d/custom.ini 
+
+# 4. ตั้งค่า Working Directory และคัดลอกไฟล์โปรเจกต์
 WORKDIR /var/www/html
-
-# คัดลอกไฟล์ project เข้า container
 COPY . .
 
-# ใช้ built-in PHP server ของ PHP สำหรับ Railway
-# Railway จะตั้ง environment variable $PORT ให้อัตโนมัติ
+# 5. กำหนดคำสั่งเริ่มต้น
 CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t /var/www/html"]
