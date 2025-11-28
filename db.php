@@ -13,6 +13,18 @@ $user = getenv('DB_USER') ?: getenv('MYSQLUSER') ?: 'root';
 $pass = getenv('DB_PASS') ?: getenv('MYSQLPASSWORD') ?: '';
 $dbname = getenv('DB_NAME') ?: getenv('MYSQLDATABASE') ?: 'referback';
 
+// หาก Railway ให้ค่าแบบ connection string ในตัวแปร DATABASE_URL (หรือ CLEARDB_DATABASE_URL)
+// ให้ parse แล้วใช้ค่านั้นแทน (รองรับหลายรูปแบบ)
+$databaseUrl = getenv('DATABASE_URL') ?: getenv('CLEARDB_DATABASE_URL') ?: getenv('MYSQL_URL') ?: '';
+if ($databaseUrl) {
+    $parts = parse_url($databaseUrl);
+    if (!empty($parts['host'])) $host = $parts['host'];
+    if (!empty($parts['port'])) $port = $parts['port'];
+    if (!empty($parts['user'])) $user = $parts['user'];
+    if (!empty($parts['pass'])) $pass = $parts['pass'];
+    if (!empty($parts['path'])) $dbname = ltrim($parts['path'], '/');
+}
+
 // ชื่อตารางที่ใช้ร่วมกับโค้ดหลัก
 $tableName = "patient_records";
 
