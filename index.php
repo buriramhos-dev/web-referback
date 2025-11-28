@@ -1,6 +1,7 @@
 <?php
 
-$ADMIN_KEY = getenv('ADMIN_ACCESS_KEY');// ตั้งรหัสลับของคุณได้เลย
+$ADMIN_KEY = getenv('ADMIN_ACCESS_KEY');
+
 
 if (!isset($_GET['key']) || $_GET['key'] !== $ADMIN_KEY) {
     http_response_code(403);
