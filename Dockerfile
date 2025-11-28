@@ -1,12 +1,12 @@
 # 1. ใช้ Base Image
 FROM php:8.2-fpm-alpine 
 
-# 2. ติดตั้ง Dependencies และ pdo_mysql
-RUN apk add --no-cache mariadb-client-dev \
+# 2. ติดตั้ง Dependencies และ pdo_mysql (แก้ไขชื่อแพ็กเกจ)
+RUN apk add --no-cache mysql-dev \
     && docker-php-ext-install pdo_mysql \
-    && apk del mariadb-client-dev
+    && apk del mysql-dev
 
-# ⭐ 3. เพิ่มบรรทัดนี้: คัดลอกไฟล์ custom.ini เพื่อล้างค่า Socket เริ่มต้น
+# 3. คัดลอกไฟล์ custom.ini (แก้ไขปัญหา Socket)
 COPY custom.ini /usr/local/etc/php/conf.d/custom.ini 
 
 # 4. ตั้งค่า Working Directory และคัดลอกไฟล์โปรเจกต์
