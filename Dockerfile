@@ -1,7 +1,7 @@
 # 1. ใช้ Base Image
 FROM php:8.2-fpm-alpine 
 
-# 2. ติดตั้ง Dependencies และ pdo_mysql (แก้ไขชื่อแพ็กเกจ)
+# 2. ⭐ แก้ไข: ติดตั้ง Dependencies และ pdo_mysql ด้วย mysql-dev
 RUN apk add --no-cache mysql-dev \
     && docker-php-ext-install pdo_mysql \
     && apk del mysql-dev

@@ -7,7 +7,7 @@
 //   DB_PORT = 3306
 //   DB_USER, DB_PASS, DB_NAME ตามที่ Railway สร้างให้
 
-$host = getenv('DB_HOST') ?: 'localhost';
+$host = getenv('DB_HOST') ?: 'mysql.railway.internal';
 $port = getenv('DB_PORT') ?: 3306;
 $user = getenv('DB_USER') ?: getenv('MYSQLUSER') ?: 'root';
 $pass = getenv('DB_PASS') ?: getenv('MYSQLPASSWORD') ?: '';
